@@ -19,6 +19,8 @@ public class NotificationController {
 
     // Thread-safe list to store emitters
     private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    // To store user specific emitters
+//    private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     @GetMapping("/subscribe")
     public SseEmitter subscribe() {

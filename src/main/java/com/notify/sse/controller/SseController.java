@@ -2,11 +2,15 @@ package com.notify.sse.controller;
 
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import jakarta.annotation.PostConstruct;
+import com.notify.sse.service.SseService;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,8 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@RequestMapping("/sse")
 public class SseController {
+	
+	@Autowired
+	private SseService sseService;
 
+	@GetMapping
+    public SseEmitter subscribe(@RequestParam String userId) {
+    	SseEmitter emitter = sseService.addEmitter(userId);
+        return emitter;
+    }
 
 	@GetMapping("/notifications")
 	public SseEmitter streamNotifications() {
